@@ -8,7 +8,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     products: [],
-    product: {}
+    product: {},
+    error: ''
   },
   mutations: {
     fetchData (state, payload) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     },
     DataProduct (state, payload) {
       state.product = payload
+    },
+    errorInputNewProduct (state, payload) {
+      state.error = payload
     }
   },
   actions: {
@@ -23,7 +27,7 @@ export default new Vuex.Store({
       // console.log(payload)
       axios({
         method: 'POST',
-        url: 'login',
+        url: 'login/admin',
         data: {
           email: payload.email,
           password: payload.password
@@ -31,11 +35,11 @@ export default new Vuex.Store({
       })
         .then(response => {
           localStorage.setItem('access_token', response.data.access_token)
-          router.push('/main-page')
+          router.push('/main-page/product')
           console.log(response.data)
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response.data)
         })
     },
     fetchData (context) {
@@ -54,31 +58,7 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    addProduct (context, payload) {
-      // console.log(payload)
-      axios({
-        url: 'product',
-        method: 'POST',
-        headers: {
-          access_token: localStorage.getItem('access_token')
-        },
-        data: {
-          name: payload.name,
-          image_url: payload.image_url,
-          price: payload.price,
-          stock: payload.stock
-        }
-      })
-        .then(response => {
-          console.log(response.data)
-          router.push('/main-page/product')
-        })
-        .catch(err => {
-          console.log(err.response.data.msg)
-        })
-    },
     deleteProduct (context, id) {
-      // console.log(context)
       axios({
         url: 'product/' + id,
         method: 'DELETE',
@@ -105,29 +85,6 @@ export default new Vuex.Store({
         .then(response => {
           console.log(response.data)
           context.commit('DataProduct', response.data)
-        })
-        .catch(err => {
-          console.log(err.response.data.msg)
-        })
-    },
-    UpdateProduct (context, payload) {
-      // console.log(payload, 'dari store')
-      axios({
-        url: 'product/' + payload.id,
-        method: 'PUT',
-        headers: {
-          access_token: localStorage.getItem('access_token')
-        },
-        data: {
-          name: payload.name,
-          image_url: payload.image_url,
-          price: payload.price,
-          stock: payload.stock
-        }
-      })
-        .then(response => {
-          // console.log(response.data)
-          router.push('/main-page/product')
         })
         .catch(err => {
           console.log(err.response.data.msg)

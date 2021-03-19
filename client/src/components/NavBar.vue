@@ -1,9 +1,11 @@
 <template>
     <div>
-        <div id="nav">
-            <router-link :to="{name: 'Main Page'}">CMS</router-link>
-            <router-link to="/main-page/product">Product</router-link>
-            <a href="#" @click="logout">Logout</a>
+      <div class="title-nav">
+        <h1>CMS</h1>
+      </div>
+        <div class="nav">
+            <router-link :to="{name: 'Product'}">Product</router-link>
+            <button class="btn-logout" @click="logout">Logout</button>
         </div>
     </div>
 </template>
@@ -21,20 +23,46 @@ export default {
 </script>
 
 <style>
-#nav {
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid black;
+
+.title-nav {
+  text-align: center;
+  color: white;
+  padding: 10px;
 }
 
-#nav a {
+.nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav a {
+  padding: 10px 10px;
+  color: white;
   font-weight: bold;
   text-decoration: none;
-  color: #2c3e50;
-  padding: 10px 80px;
+  transition: .3s;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+.nav a:hover {
+  background: rgb(43, 41, 135);
+}
+
+.nav a.router-link-exact-active {
+  background: rgb(43, 41, 135);
+}
+
+.btn-logout {
+  padding: 9px 10px;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  transition: .3s;
+  background: rgb(223, 68, 68);
+  border: none;
+  text-align: start;
+}
+
+.btn-logout:hover {
+  background: rgb(194, 36, 36);
 }
 </style>
